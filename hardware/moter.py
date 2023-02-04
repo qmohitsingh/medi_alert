@@ -12,7 +12,7 @@ servo1 = GPIO.PWM(11,50) # Note 11 is pin, 50 = 50Hz pulse
 #start PWM running, but with value of 0 (pulse off)
 servo1.start(0)
 print ("Waiting for 2 seconds")
-time.sleep(1)
+time.sleep(0.7)
 
 #Let's move the servo!
 print ("Rotating 180 degrees in 10 steps")
@@ -27,7 +27,7 @@ while duty <= 12:
     duty = duty + 1
 
 # Wait a couple of seconds
-time.sleep(0.75)
+time.sleep(0.2)
 
 # # Turn back to 90 degrees
 # print ("Turning back to 90 degrees for 2 seconds")
