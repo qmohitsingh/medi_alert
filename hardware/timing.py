@@ -5,10 +5,10 @@ import urllib
 import time
 import os
 import json
-import moter
+#import moter
 
 
-def __init__():
+def init():
 
     #check med info file status
     File_name = "med_data.json"
@@ -30,17 +30,18 @@ def __init__():
             file_data = json.load(file)
         data_exists = True
 
+        print(file_data)
+
     #if file does not exist check wifi connection
     status = ""
-    while status != "Connected":
-        try:
-            url = "https://www.google.com"
-            urllib.urlopen(url)
-            status = "Connected"
-        except:
-            status = "Not connected"
-            if not data_exists:
-                time.sleep(60)
+    try:
+        url = "https://www.google.com"
+        urllib.urlopen(url)
+        status = "Connected"
+    except:
+        status = "Not connected"
+        if not data_exists:
+            time.sleep(60)
 
     #test to see if the dict is up to date
     if(status == "Connected"):
@@ -54,17 +55,12 @@ def __init__():
 
     main(file_data)
 
-def time_until(time):
-    pass
 
 def next_time(time, interval, now):
     while time < now:
-        time + timedelta(minutes = interval)
+        time += timedelta(minutes = interval)
 
     return time
-
-
-
 
 def build_events(medications):
     #build the event list
@@ -72,52 +68,60 @@ def build_events(medications):
 
     now = datetime.now()
 
-    events += {
+    events.append( {
         "name" : "check_api",
         "id" : 0,
-        "time" : now + timedelta(hours = 1),
-        "interval" : 3600,
+        "time" : now.replace(minute=0, second=0, microsecond=0) + timedelta(hours = 1),
+        "interval" : 60,
         "vibrations" : 0
-    }
+    })
+    print(medications)
 
-    for med in medications:
+    for med in medications['medications']:
+        print(med)
         event = {
             "name" : med["name"],
             "id" : med["id"],
-            "time" : next_time(med["new_time"], med["interval"], now),
+            "time" : next_time(datetime.strptime(med["new_time"], '%Y-%m-%d %H:%M:%S'), med["interval"], now),
             "interval" : med["interval"],
             "vibrations" : med["vibrations"]
         }
-        events += event
+        events.append(event)
         
     return events
 
 def main(medications):            
     events = build_events(medications)
+    print(events)
 
     while True:
 
         #sets the next event to trigger
         active_event = events[0]
         for event in events:
+            print(event)
             if event["time"] < active_event["time"]:
                 active_event = event
+
+        print(active_event["name"])
 
         time_until = (active_event["time"] - datetime.now()).total_seconds()
 
         if(time_until > 0):
+            print(time_until)
             time.sleep(time_until)
 
         #trigger api call or moter event
         if(active_event["id"] == 0):
             pass
-            #api call
+            #api call to check if there are changes 
         else:
             for i in range(active_event["vibrations"]):
-                moter.moter()
+                #moter.moter()
+                print("buzz buzz")
 
         #update the dictionary with the next event
         active_event["time"] += timedelta(minutes=active_event["interval"])
 
 if __name__ == "__main__":
-    __init__()
+    init()
