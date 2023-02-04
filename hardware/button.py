@@ -10,17 +10,17 @@ def taken_button_callback(channel):
     global t_last_press
     if(time.time() - t_last_press > 3):
         t_last_press = time.time()
-        global num
-        num = num + 1
-        print(num)
+        global taken_num
+        taken_num = taken_num + 1
+        print(taken_num)
 
 def snooze_button_callback(channel):
     global snooze_press
     if(time.time() - snooze_press > 3):
         snooze_press = time.time()
-        global num
-        num = num + 1
-        print(num)
+        global snooze_num
+        snooze_num = snooze_num + 1
+        print(snooze_num)
 
 GPIO.setwarnings(False) # Ignore warning for now
 GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
