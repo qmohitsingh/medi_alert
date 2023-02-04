@@ -1,11 +1,16 @@
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
+import time
 
 num = 0
+last_press = time()
 
 def button_callback(channel):
-    global num
-    num = num + 1
-    print(num)
+    global last_press
+    if(time() - last_press > 3):
+        last_press = time()
+        global num
+        num = num + 1
+        print(num)
 
 GPIO.setwarnings(False) # Ignore warning for now
 GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
