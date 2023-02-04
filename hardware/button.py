@@ -1,18 +1,13 @@
-import RPi.GPIO as GPIO
-import time
+import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 
-BUTTON_GPIO = 10
-if __name__ == '__main__':
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(BUTTON_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    pressed = False
-    while True:
-        # button is pressed when pin is LOW
-        if GPIO.input(BUTTON_GPIO):
-            if not pressed:
-                print("1")
-                pressed = True
-        # button not pressed (or released)
-        else:
-            pressed = False
-        time.sleep(0.1)
+def button_callback(channel):
+    print("Button was pushed!")
+
+GPIO.setwarnings(False) # Ignore warning for now
+GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
+GPIO.add_event_detect(10,GPIO.RISING,callback=button_callback) # Setup event on pin 10 rising edge
+
+message = input("Press enter to quit\n\n") # Run until someone presses enter
+
+GPIO.cleanup() # Clean up
