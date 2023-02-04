@@ -1,9 +1,11 @@
 from datetime import datetime 
+from datetime import timedelta
 import requests
 import urllib
 import time
 import os
 import json
+import moter
 
 
 def __init__():
@@ -44,23 +46,78 @@ def __init__():
     if(status == "Connected"):
         pass
         #TODO call api request and asses the dict
-        #TODO If its changed save the med info to file
+        api_data = {}
+
+        if(file_data != api_data):
+            pass
+            #update the file and use the new data
 
     main(file_data)
 
-def main(events):
+def time_until(time):
     pass
-    while True:
-        pass
 
+def next_time(time, interval, now):
+    while time < now:
+        time + timedelta(minutes = interval)
+
+    return time
+
+
+
+
+def build_events(medications):
+    #build the event list
+    events = []
+
+    now = datetime.now()
+
+    events += {
+        "name" : "check_api",
+        "id" : 0,
+        "time" : now + timedelta(hours = 1),
+        "interval" : 3600,
+        "vibrations" : 0
+    }
+
+    for med in medications:
+        event = {
+            "name" : med["name"],
+            "id" : med["id"],
+            "time" : next_time(med["new_time"], med["interval"], now),
+            "interval" : med["interval"],
+            "vibrations" : med["vibrations"]
+        }
+        events += event
         
-        #check to see when the next medication is or api check is schedualed
+    return events
 
-        #sleep until next event
+def main(medications):            
+    events = build_events(medications)
+
+    while True:
+
+        #sets the next event to trigger
+        active_event = events[0]
+        for event in events:
+            if event["time"] < active_event["time"]:
+                active_event = event
+
+        time_until = (active_event["time"] - datetime.now()).total_seconds()
+
+        if(time_until > 0):
+            time.sleep(time_until)
 
         #trigger api call or moter event
+        if(active_event["id"] == 0):
+            pass
+            #api call
+        else:
+            for i in range(active_event["vibrations"]):
+                moter.moter()
 
         #update the dictionary with the next event
+        active_event["time"] += timedelta(minutes=active_event["interval"])
 
 if __name__ == "__main__":
     __init__()
