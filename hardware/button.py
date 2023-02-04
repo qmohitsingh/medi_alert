@@ -2,12 +2,12 @@ import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 import time
 
 num = 0
-last_press = time()
+last_press = time.time()
 
 def button_callback(channel):
     global last_press
-    if(time() - last_press > 3):
-        last_press = time()
+    if(time.time() - last_press > 3):
+        last_press = time.time()
         global num
         num = num + 1
         print(num)
