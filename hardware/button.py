@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 
-int num = 0
+num = 0
 def button_callback(channel):
     num = num + 1
     print(num)
