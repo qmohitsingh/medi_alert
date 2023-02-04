@@ -1,9 +1,9 @@
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 
-global num 
 num = 0
 
 def button_callback(channel):
+    global num
     num = num + 1
     print(num)
 
