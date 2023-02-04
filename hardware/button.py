@@ -12,7 +12,7 @@ def taken_button_callback(channel):
         t_last_press = time.time()
         global taken_num
         taken_num = taken_num + 1
-        print(taken_num)
+        print("t" + str(taken_num))
 
 def snooze_button_callback(channel):
     global snooze_press
@@ -20,7 +20,7 @@ def snooze_button_callback(channel):
         snooze_press = time.time()
         global snooze_num
         snooze_num = snooze_num + 1
-        print(snooze_num)
+        print("s" + str(snooze_num))
 
 GPIO.setwarnings(False) # Ignore warning for now
 GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
