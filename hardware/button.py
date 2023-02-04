@@ -1,7 +1,9 @@
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 
+int num = 0
 def button_callback(channel):
-    print("Button was pushed!")
+    num = num + 1
+    print(num)
 
 GPIO.setwarnings(False) # Ignore warning for now
 GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
