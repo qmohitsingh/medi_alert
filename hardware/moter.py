@@ -27,7 +27,7 @@ while duty <= 12:
     duty = duty + 1
 
 # Wait a couple of seconds
-time.sleep(1)
+time.sleep(0.75)
 
 # # Turn back to 90 degrees
 # print ("Turning back to 90 degrees for 2 seconds")
