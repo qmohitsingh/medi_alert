@@ -7,7 +7,7 @@ t_last_press = time.time()
 snooze_press = time.time()
 
 def taken_button_callback(channel):
-    global last_press
+    global t_last_press
     if(time.time() - t_last_press > 3):
         t_last_press = time.time()
         global num
