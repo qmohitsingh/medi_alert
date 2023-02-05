@@ -220,12 +220,14 @@ def main(medications):
                                 alert["time"] = event["time"]
                                 alert["alert_time"] = event["alert_time"]
 
+                else:
+                    active_event["time"] += timedelta(minutes=active_event["interval"])
+                    active_event["alert_time"] += timedelta(minutes=active_event["interval"])
+
             print(events)
 
             print(upload)
             status = requests.post(url, json = json.dumps(upload, indent=4))
-
-            sys.exit()
 
             if(status == 200):
                 upload = []
