@@ -26,6 +26,21 @@ class Meds {
         }
     }
 
+    async updateMedsHistory(med_id, user_id, time_taken, delay) {
+
+        try {
+
+            const sql = `INSERT INTO tb_medication_history (med_id, user_id, time_taken, delay) VALUES (?, ? , ?, ?)`;
+
+            const data = await DbConnections.MySql.defaultConnection.query(sql, [med_id, user_id, time_taken, delay])
+
+            return { message: 'Success' , statusCode: 200, data: data}
+        } catch (e) {
+
+            return { message: 'Failed' , statusCode: 401, data: e}
+        }
+    }
+
 }
 
 const meds = new Meds();
