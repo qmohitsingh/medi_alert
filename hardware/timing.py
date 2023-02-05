@@ -167,10 +167,12 @@ def main(medications):
 
         #trigger api call or moter event
         if(active_event["id"] == 0):
+            print("api being used")
             url = "http://3.92.112.184:3005/meds"
             api_resp = requests.get(url + f"/{user_id}")
 
             if(api_resp.status_code == 200):
+                print("recived medication info")
                 api_data = []
                 api_response_json = api_resp.json()
                 for i in api_response_json["data"]:
@@ -191,6 +193,12 @@ def main(medications):
                 }
 
                 if(medications != api_json):
+                    print("info does not match")
+
+                    print("\n")
+                    print(medications)
+                    print(api_json)
+                    print("\n")
                     medications = api_json
                     with open(File_name, 'w') as file:
                         json.dump(medications, file, indent=4)
@@ -202,6 +210,10 @@ def main(medications):
                             stored_events.append(event)
                     events = build_events(medications)
 
+                    print(events)
+
+                    print(stored_events)
+
                     for event in stored_events:
                         for alert in events:
                             if alert["id"] == event["id"]:
@@ -211,6 +223,7 @@ def main(medications):
             status = requests.post(url, json = json.dumps(upload, indent=4))
             if(status == 200):
                 upload = []
+            sys.exit()
 
 
         else:
