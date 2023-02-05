@@ -28,6 +28,22 @@ app.get('/meds/:userId', async (req, res) => {
     }
 });
 
+app.post('/meds', async (req, res) => {
+    const body = req.body;
+
+    console.log(body)
+    try {
+        const resp = await meds.updateMedsHistory(body.med_id, body.user_id, body.time_taken, body.delay);
+        res.status(200).send(resp);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({
+            message: "Failed to retrieve meds",
+            error: error.message
+        });
+    }
+});
+
 app.post('/user/login', async (req, res) => {
 
     const body = req.body;
