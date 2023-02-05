@@ -30,7 +30,7 @@ class Meds {
 
         try {
 
-            if (body == undefined || body.length == 0)
+            if (body == undefined || body.length == undefined || body.length == 0)
                 return { message: 'Success' , statusCode: 200, data: []}
 
             let values = [];
