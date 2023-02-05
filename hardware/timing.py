@@ -72,7 +72,8 @@ def init():
 
 
 
-    for i in api_data:
+    for i in api_data["data"]:
+        print("\n")
         print(i)
         #i["next_time"] = i["next_time"].strftime('%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0)
 
