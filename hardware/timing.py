@@ -71,6 +71,7 @@ def init():
         status = "Connected"        
 
     except:
+        print("did not connect")
         status = "Not connected"
         if not data_exists:
             time.sleep(60)
@@ -84,8 +85,9 @@ def init():
         for i in api_data:
             i["next_time"] = i["next_time"].strftime('%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0)
 
-
+        print("\n\n api's return: ")
         print(api_data)
+        print("\n\n")
 
         sys.exit()
         if(file_data != api_data):
