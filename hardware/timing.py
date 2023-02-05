@@ -81,13 +81,10 @@ def init():
         }
         api_data.append(medication)
     if(file_data != api_data):
-        print("missmatch")
+        file_data = api_data
+        with open(File_name, 'w') as file:
+            json.dump(file_data, file, indent=4)
 
-        print("\n")
-        print(api_data)
-        print("\n")
-        print(file_data["medications"])
-        print("\n")
         #update the file and use the new data
 
     GPIO.setwarnings(False) # Ignore warning for now
