@@ -159,6 +159,7 @@ def main(medications):
             start_time = time.time()
             while True:
                 if time.time() - start_time > 10:
+                    print(f"timed out {active_event['name']}")
                     active_event["time"] += timedelta(minutes=5)
                     break
                 if button_pressed == 1:
@@ -166,9 +167,11 @@ def main(medications):
                     #store api request
 
                     #update the dictionary with the next event
+                    print(f"triggering event {active_event['name']}")
                     active_event["time"] += timedelta(minutes=active_event["interval"])
                     break
                 elif button_pressed == 2:
+                    print(f"sleeping event {active_event['name']}")
                     active_event["time"] += timedelta(minutes=5)
                     break
                 time.sleep(0.1)
