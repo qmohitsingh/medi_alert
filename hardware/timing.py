@@ -18,6 +18,8 @@ snooze_press = time.time()
 button_pressed = 0
 user_id = 1
 
+File_name = "med_data.json"
+
 def taken_button_callback(channel):
     print("taken button press")
     global t_last_press
@@ -42,7 +44,6 @@ def snooze_button_callback(channel):
 
 def init():
     #check med info file status
-    File_name = "med_data.json"
 
     #if file doesn't exist create it
     file = open(File_name,'a+')
@@ -66,8 +67,6 @@ def init():
     #test to see if the dict is up to date
     url = "http://3.92.112.184:3005/meds/"
     api_resp = requests.get(url + f"{user_id}")
-
-
 
     if(api_resp.status_code == 200):
         api_data = []
@@ -124,7 +123,7 @@ def build_events(medications):
         "id" : 0,
         "time" : now.replace(minute=0, second=0, microsecond=0) + timedelta(hours = 1),
         "alert_time" : now.replace(minute=0, second=0, microsecond=0) + timedelta(hours = 1),
-        "interval" : 60,
+        "interval" : 10,
         "vibrations" : 0
     })
     print(medications)
@@ -168,18 +167,37 @@ def main(medications):
 
         #trigger api call or moter event
         if(active_event["id"] == 0):
-            try:
-                url = "https://www.google.com"
-                urllib.urlopen(url)
-                url = "http://3.92.112.184:3005/"
-                medication_data = requests.get(url + f"meds/{user_id}")
+            url = "http://3.92.112.184:3005/meds"
+            api_resp = requests.get(url + f"/{user_id}")
 
-                status = requests.post(url, json = json.dumps(upload, indent=4))
-                if(status == 200):
-                    upload = []
-            except:
-                print("failed to connect")
-            #api call to check if there are changes and send the collected data
+            if(api_resp.status_code == 200):
+                api_data = []
+                api_response_json = api_resp.json()
+                for i in api_response_json["data"]:
+                    print("\n")
+                    print(i)
+
+                    medication = {
+                        "name" : i["med_name"],
+                        "id" : i["med_id"],
+                        "new_time" : datetime.strptime(i["next_time"], '%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0).strftime('%Y-%m-%d %H:%M:%S'),
+                        "interval" : i["interval_time"],
+                        "vibrations" : i["vibration"]
+                    }
+                    api_data.append(medication)
+
+                api_json = {
+                    "medications" : api_data
+                }
+
+                if(medications != api_json):
+                    medications = api_json
+                    with open(File_name, 'w') as file:
+                        json.dump(medications, file, indent=4)
+
+            status = requests.post(url, json = json.dumps(upload, indent=4))
+            if(status == 200):
+                upload = []
 
 
         else:
