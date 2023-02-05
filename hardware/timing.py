@@ -82,6 +82,11 @@ def init():
         api_data.append(medication)
     if(file_data != api_data):
         print("missmatch")
+
+        print("\n")
+        print(api_data)
+        print("\n")
+        print(file_data)
         #update the file and use the new data
 
     GPIO.setwarnings(False) # Ignore warning for now
