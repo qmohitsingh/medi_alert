@@ -121,8 +121,8 @@ def build_events(medications):
     events.append( {
         "name" : "check_api",
         "id" : 0,
-        "time" : now.replace(minute=0, second=0, microsecond=0) + timedelta(minutes = 5),
-        "alert_time" : now.replace(minute=0, second=0, microsecond=0) + timedelta(minutes = 5),
+        "time" : now.replace(second=0, microsecond=0) + timedelta(minutes = 5),
+        "alert_time" : now.replace(second=0, microsecond=0) + timedelta(minutes = 5),
         "interval" : 5,
         "vibrations" : 0
     })
