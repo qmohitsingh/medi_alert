@@ -4,7 +4,7 @@ import time
 
 def moter():
     # Set GPIO numbering mode
-    GPIO.setmode(GPIO.BOARD)
+    #GPIO.setmode(GPIO.BOARD)
 
     # Set pin 11 as an output, and set servo1 as pin 11 as PWM
     GPIO.setup(11,GPIO.OUT)
@@ -30,4 +30,4 @@ def moter():
 
     #Clean things up at the end
     servo1.stop()
-    GPIO.cleanup()
+    #GPIO.cleanup()
