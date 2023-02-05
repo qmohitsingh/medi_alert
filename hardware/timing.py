@@ -229,6 +229,12 @@ def main(medications):
             print(upload)
             status = requests.post(url, json = json.dumps(upload, indent=4))
 
+
+            print("\n\n")
+            print("STATUS:")
+            print(status)
+            print("\n\n")
+
             if(status == 200):
                 upload = []
 
