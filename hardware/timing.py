@@ -65,30 +65,34 @@ def init():
 
     #test to see if the dict is up to date
     url = "http://3.92.112.184:3005/meds/"
-    api_resp = requests.get(url + f"{user_id}").json()
-    api_data = []
+    api_resp = requests.get(url + f"{user_id}")
 
-    for i in api_resp["data"]:
-        print("\n")
-        print(i)
 
-        medication = {
-            "name" : i["med_name"],
-            "id" : i["med_id"],
-            "new_time" : datetime.strptime(i["next_time"], '%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0).strftime('%Y-%m-%d %H:%M:%S'),
-            "interval" : i["interval_time"],
-            "vibrations" : i["vibration"]
+
+    if(api_resp.status_code == 200):
+        api_data = []
+        api_response_json = api_resp.json()
+        for i in api_response_json["data"]:
+            print("\n")
+            print(i)
+
+            medication = {
+                "name" : i["med_name"],
+                "id" : i["med_id"],
+                "new_time" : datetime.strptime(i["next_time"], '%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0).strftime('%Y-%m-%d %H:%M:%S'),
+                "interval" : i["interval_time"],
+                "vibrations" : i["vibration"]
+            }
+            api_data.append(medication)
+
+        api_json = {
+            "medications" : api_data
         }
-        api_data.append(medication)
 
-    api_json = {
-        "medications" : api_data
-    }
-
-    if(file_data != api_json):
-        file_data = api_json
-        with open(File_name, 'w') as file:
-            json.dump(file_data, file, indent=4)
+        if(file_data != api_json):
+            file_data = api_json
+            with open(File_name, 'w') as file:
+                json.dump(file_data, file, indent=4)
 
         #update the file and use the new data
 
