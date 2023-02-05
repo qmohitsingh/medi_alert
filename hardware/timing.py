@@ -163,7 +163,6 @@ def main(medications):
                     active_event["time"] += timedelta(minutes=5)
                     break
                 if button_pressed == 1:
-                    pass
                     #store api request
 
                     #update the dictionary with the next event
