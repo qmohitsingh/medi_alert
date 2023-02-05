@@ -86,7 +86,8 @@ def init():
         print("\n")
         print(api_data)
         print("\n")
-        print(file_data)
+        print(file_data["medications"])
+        print("\n")
         #update the file and use the new data
 
     GPIO.setwarnings(False) # Ignore warning for now
