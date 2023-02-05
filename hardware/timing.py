@@ -75,7 +75,7 @@ def init():
         medication = {
             "name" : i["med_name"],
             "id" : i["med_id"],
-            "new_time" : i["next_time"].strptime('%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0),
+            "new_time" : datetime.strptime(i["next_time"], '%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0),
             "interval" : i["interval_time"],
             "vibrations" : i["vibration"]
         }
