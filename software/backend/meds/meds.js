@@ -26,13 +26,22 @@ class Meds {
         }
     }
 
-    async updateMedsHistory(med_id, user_id, time_taken, delay) {
+    async updateMedsHistory(body) {
 
         try {
 
-            const sql = `INSERT INTO tb_medication_history (med_id, user_id, time_taken, delay) VALUES (?, ? , ?, ?)`;
+            let values = [];
 
-            const data = await DbConnections.MySql.defaultConnection.query(sql, [med_id, user_id, time_taken, delay])
+            body.forEach( obj => {
+                values.push([obj.med_id, obj.user_id, obj.time_taken, obj.delay])
+            })
+
+
+            //const sql = `INSERT INTO tb_medication_history (med_id, user_id, time_taken, delay) VALUES (?, ? , ?, ?)`;
+            const sql = `INSERT INTO tb_medication_history (med_id, user_id, time_taken, delay) VALUES ?`;
+
+
+            const data = await DbConnections.MySql.defaultConnection.query(sql, [values])
 
             return { message: 'Success' , statusCode: 200, data: data}
         } catch (e) {
