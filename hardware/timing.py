@@ -68,7 +68,7 @@ def init():
     api_resp = requests.get(url + f"{user_id}").json()
     api_data = []
 
-    for i in api_data["data"]:
+    for i in api_resp["data"]:
         print("\n")
         print(i)
 
