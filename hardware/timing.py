@@ -80,8 +80,13 @@ def init():
             "vibrations" : i["vibration"]
         }
         api_data.append(medication)
-    if(file_data != api_data):
-        file_data = api_data
+
+    api_json = {
+        "medications" : api_data
+    }
+
+    if(file_data != api_json):
+        file_data = api_json
         with open(File_name, 'w') as file:
             json.dump(file_data, file, indent=4)
 
