@@ -7,6 +7,7 @@ import os
 import json
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 import moter
+import sys
 
 
 taken_num = 0
@@ -15,6 +16,7 @@ t_last_press = time.time()
 snooze_press = time.time()
 
 button_pressed = 0
+user_id = 1
 
 def taken_button_callback(channel):
     print("taken button press")
@@ -66,7 +68,8 @@ def init():
     try:
         url = "https://www.google.com"
         urllib.urlopen(url)
-        status = "Connected"
+        status = "Connected"        
+
     except:
         status = "Not connected"
         if not data_exists:
@@ -74,10 +77,17 @@ def init():
 
     #test to see if the dict is up to date
     if(status == "Connected"):
-        pass
         #TODO call api request and asses the dict
-        api_data = {}
+        url = "http://3.92.112.184:3005/meds/"
+        api_data = requests.get(url + f"{user_id}")
 
+        for i in api_data:
+            i["next_time"] = i["next_time"].strftime('%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0)
+
+
+        print(api_data)
+
+        sys.exit()
         if(file_data != api_data):
             pass
             #update the file and use the new data
@@ -133,6 +143,8 @@ def main(medications):
     events = build_events(medications)
     print(events)
 
+    
+    upload = []
     while True:
 
         #sets the next event to trigger
@@ -152,8 +164,20 @@ def main(medications):
 
         #trigger api call or moter event
         if(active_event["id"] == 0):
-            pass
-            #api call to check if there are changes 
+            try:
+                url = "https://www.google.com"
+                urllib.urlopen(url)
+                url = "http://3.92.112.184:3005/"
+                medication_data = requests.get(url + f"meds/{user_id}")
+
+                status = requests.post(url, json = json.dumps(upload, indent=4))
+                if(status == 200):
+                    upload = []
+            except:
+                print("failed to connect")
+            #api call to check if there are changes and send the collected data
+
+
         else:
             for i in range(active_event["vibrations"]):
                 moter.moter()
@@ -165,7 +189,12 @@ def main(medications):
             while True:
                 if button_pressed == 1:
                     #store api request
-
+                    upload.append({
+                        "med_id" : active_event["id"],
+                        "user_id" : user_id,
+                        "time_taken" : active_event["time"].strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+                        "delay" : (active_event["alert_time"] - active_event["time"]).total_seconds()
+                    })
                     #update the dictionary with the next event
                     print(f"triggering event {active_event['name']}")
                     active_event["alert_time"] = active_event["time"] + timedelta(minutes=active_event["interval"])
