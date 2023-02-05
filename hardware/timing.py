@@ -220,6 +220,7 @@ def main(medications):
                                 alert["time"] = event["time"]
                                 alert["alert_time"] = event["alert_time"]
 
+            print(events)
 
             print(upload)
             status = requests.post(url, json = json.dumps(upload, indent=4))
