@@ -223,7 +223,6 @@ def main(medications):
             status = requests.post(url, json = json.dumps(upload, indent=4))
             if(status == 200):
                 upload = []
-            sys.exit()
 
 
         else:
