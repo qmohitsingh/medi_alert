@@ -68,7 +68,7 @@ def init():
     url = "http://3.92.112.184:3005/meds/"
     api_data = requests.get(url + f"{user_id}")
 
-    print(api_data["data"])
+    #print(api_data["data"])
 
     for i in api_data:
         print(i)
