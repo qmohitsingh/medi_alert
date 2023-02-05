@@ -45,6 +45,7 @@
     "pg": "^7.12.1",
     "pino-multi-stream": "^4.3.0",
     "pino-pretty": "^3.2.0",
+    "rsuite": "^5.26.0",
     "underscore": "^1.9.1",
     "union-find": "^1.0.2"
   },
