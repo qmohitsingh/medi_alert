@@ -64,26 +64,24 @@ def init():
         print(file_data)
 
     #test to see if the dict is up to date
-    #TODO call api request and asses the dict
     url = "http://3.92.112.184:3005/meds/"
-    api_data = requests.get(url + f"{user_id}").json()
-
-    print(api_data)
-
-
+    api_resp = requests.get(url + f"{user_id}").json()
+    api_data = []
 
     for i in api_data["data"]:
         print("\n")
         print(i)
-        #i["next_time"] = i["next_time"].strftime('%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0)
 
-    print("\n\n api's return: ")
-    print(api_data)
-    print("\n\n")
-
-    sys.exit()
+        medication = {
+            "name" : i["med_name"],
+            "id" : i["med_id"],
+            "new_time" : i["next_time"].strftime('%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0),
+            "interval" : i["interval_time"],
+            "vibrations" : i["vibration"]
+        }
+        api_data.append(medication)
     if(file_data != api_data):
-        pass
+        print("missmatch")
         #update the file and use the new data
 
     GPIO.setwarnings(False) # Ignore warning for now
