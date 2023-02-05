@@ -195,6 +195,19 @@ def main(medications):
                     with open(File_name, 'w') as file:
                         json.dump(medications, file, indent=4)
 
+
+                    stored_events = []
+                    for event in events:
+                        if event["alert_time"] != event["time"]:
+                            stored_events.append(event)
+                    events = build_events(medications)
+
+                    for event in stored_events:
+                        for alert in events:
+                            if alert["id"] == event["id"]:
+                                alert["time"] = event["time"]
+                                alert["alert_time"] = event["alert_time"]
+
             status = requests.post(url, json = json.dumps(upload, indent=4))
             if(status == 200):
                 upload = []
