@@ -30,6 +30,9 @@ class Meds {
 
         try {
 
+            if (body == undefined || body.length == 0)
+                return { message: 'Success' , statusCode: 200, data: []}
+
             let values = [];
 
             body.forEach( obj => {
