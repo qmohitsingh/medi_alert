@@ -5,11 +5,36 @@ import urllib
 import time
 import os
 import json
-#import moter
+import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
+import moter
 
+
+taken_num = 0
+snooze_num = 0
+t_last_press = time.time()
+snooze_press = time.time()
+
+button_pressed = 0
+
+def taken_button_callback(channel):
+    global t_last_press
+    if(time.time() - t_last_press > 3):
+        t_last_press = time.time()
+        global taken_num
+        taken_num = taken_num + 1
+        global button_pressed
+        button_pressed = 1
+
+def snooze_button_callback(channel):
+    global snooze_press
+    if(time.time() - snooze_press > 3):
+        snooze_press = time.time()
+        global snooze_num
+        snooze_num = snooze_num + 1
+        global button_pressed
+        button_pressed = 2
 
 def init():
-
     #check med info file status
     File_name = "med_data.json"
 
@@ -53,6 +78,14 @@ def init():
             pass
             #update the file and use the new data
 
+    GPIO.setwarnings(False) # Ignore warning for now
+    GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+    GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
+    GPIO.add_event_detect(10,GPIO.RISING,callback=taken_button_callback) # Setup event on pin 10 rising edge
+    GPIO.setup(8, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 8 to be an input pin and set initial value to be pulled low (off)
+    GPIO.add_event_detect(8,GPIO.RISING,callback=snooze_button_callback) # Setup event on pin 8 rising edge
+
+
     main(file_data)
 
 
@@ -94,6 +127,8 @@ def main(medications):
     events = build_events(medications)
     print(events)
 
+    timeout_time = 10
+
     while True:
 
         #sets the next event to trigger
@@ -117,11 +152,27 @@ def main(medications):
             #api call to check if there are changes 
         else:
             for i in range(active_event["vibrations"]):
-                #moter.moter()
-                print("buzz buzz")
+                moter.moter()
 
-        #update the dictionary with the next event
-        active_event["time"] += timedelta(minutes=active_event["interval"])
+            global button_pressed
+            button_pressed = 0
+            start_time = time.time()
+            while True:
+                if time.time() - start_time > 10:
+                    active_event["time"] += timedelta(minutes=5)
+                    break
+                if button_pressed == 1:
+                    pass
+                    #store api request
+
+                    #update the dictionary with the next event
+                    active_event["time"] += timedelta(minutes=active_event["interval"])
+                    break
+                elif button_pressed == 2:
+                    active_event["time"] += timedelta(minutes=5)
+                    break
+                time.sleep(0.1)
+        
 
 if __name__ == "__main__":
     init()

@@ -6,6 +6,13 @@
             "new_time" : "2023-02-04 16:43:00",
             "interval" : 1,
             "vibrations" : 3
+        },
+        {
+            "name" : "zolof",
+            "id" : "2",
+            "new_time" : "2023-02-04 16:43:00",
+            "interval" : 5,
+            "vibrations" : 4
         }
     ]
 }
