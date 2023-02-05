@@ -5,6 +5,7 @@ import LoginPage from "./components/LoginPage";
 import Homepage from "./components/Homepage";
 import SignUpPage from "./components/SignupPage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
+import MedicationForm from "./components/MedicationForm";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -12,6 +13,8 @@ const router = createBrowserRouter([
         errorElement: <Error />,
         children: [
             { path: "", element: <Homepage /> },
+            { path: "/home", element: <Homepage /> },
+            { path: "/medicationform", element: <MedicationForm /> },
         ],
     },
     {
