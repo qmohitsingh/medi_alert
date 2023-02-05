@@ -109,6 +109,7 @@ def build_events(medications):
         "name" : "check_api",
         "id" : 0,
         "time" : now.replace(minute=0, second=0, microsecond=0) + timedelta(hours = 1),
+        "alert_time" : now.replace(minute=0, second=0, microsecond=0) + timedelta(hours = 1),
         "interval" : 60,
         "vibrations" : 0
     })
@@ -120,6 +121,7 @@ def build_events(medications):
             "name" : med["name"],
             "id" : med["id"],
             "time" : next_time(datetime.strptime(med["new_time"], '%Y-%m-%d %H:%M:%S'), med["interval"], now),
+            "alert_time" : next_time(datetime.strptime(med["new_time"], '%Y-%m-%d %H:%M:%S'), med["interval"], now),
             "interval" : med["interval"],
             "vibrations" : med["vibrations"]
         }
@@ -131,20 +133,18 @@ def main(medications):
     events = build_events(medications)
     print(events)
 
-    timeout_time = 10
-
     while True:
 
         #sets the next event to trigger
         active_event = events[0]
         for event in events:
             print(event)
-            if event["time"] < active_event["time"]:
+            if event["alert_time"] < active_event["alert_time"]:
                 active_event = event
 
         print(active_event["name"])
 
-        time_until = (active_event["time"] - datetime.now()).total_seconds()
+        time_until = (active_event["alert_time"] - datetime.now()).total_seconds()
 
         if(time_until > 0):
             print(time_until)
@@ -163,22 +163,23 @@ def main(medications):
             print(button_pressed)
             start_time = time.time()
             while True:
-                if time.time() - start_time > 10:
-                    print(f"timed out {active_event['name']}")
-                    active_event["time"] += timedelta(minutes=5)
-                    break
                 if button_pressed == 1:
                     #store api request
 
                     #update the dictionary with the next event
                     print(f"triggering event {active_event['name']}")
+                    active_event["alert_time"] = active_event["time"] + timedelta(minutes=active_event["interval"])
                     active_event["time"] += timedelta(minutes=active_event["interval"])
                     break
                 elif button_pressed == 2:
                     print(f"sleeping event {active_event['name']}")
-                    active_event["time"] += timedelta(minutes=5)
+                    active_event["alert_time"] += timedelta(minutes=5)
                     break
-                time.sleep(3)
+                if time.time() - start_time > 10:
+                    print(f"timed out {active_event['name']}")
+                    active_event["alert_time"] += timedelta(minutes=5)
+                    break
+                time.sleep(2)
         
 
 if __name__ == "__main__":
