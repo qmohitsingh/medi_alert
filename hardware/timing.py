@@ -68,6 +68,8 @@ def init():
     url = "http://3.92.112.184:3005/meds/"
     api_data = requests.get(url + f"{user_id}")
 
+    print(api_data)
+
     for i in api_data:
         i["next_time"] = i["next_time"].strftime('%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0)
 
