@@ -63,36 +63,22 @@ def init():
 
         print(file_data)
 
-    #if file does not exist check wifi connection
-    status = ""
-    try:
-        url = "https://www.google.com"
-        urllib.urlopen(url)
-        status = "Connected"        
-
-    except:
-        print("did not connect")
-        status = "Not connected"
-        if not data_exists:
-            time.sleep(60)
-
     #test to see if the dict is up to date
-    if(status == "Connected"):
-        #TODO call api request and asses the dict
-        url = "http://3.92.112.184:3005/meds/"
-        api_data = requests.get(url + f"{user_id}")
+    #TODO call api request and asses the dict
+    url = "http://3.92.112.184:3005/meds/"
+    api_data = requests.get(url + f"{user_id}")
 
-        for i in api_data:
-            i["next_time"] = i["next_time"].strftime('%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0)
+    for i in api_data:
+        i["next_time"] = i["next_time"].strftime('%Y-%m-%dT%H:%M:%S.%f%z').replace(minute=0, second=0, microsecond=0)
 
-        print("\n\n api's return: ")
-        print(api_data)
-        print("\n\n")
+    print("\n\n api's return: ")
+    print(api_data)
+    print("\n\n")
 
-        sys.exit()
-        if(file_data != api_data):
-            pass
-            #update the file and use the new data
+    sys.exit()
+    if(file_data != api_data):
+        pass
+        #update the file and use the new data
 
     GPIO.setwarnings(False) # Ignore warning for now
     GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
