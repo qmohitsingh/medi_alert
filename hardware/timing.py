@@ -17,21 +17,25 @@ snooze_press = time.time()
 button_pressed = 0
 
 def taken_button_callback(channel):
+    print("taken button press")
     global t_last_press
     if(time.time() - t_last_press > 3):
         t_last_press = time.time()
         global taken_num
         taken_num = taken_num + 1
         global button_pressed
+        print("taken button press processed")
         button_pressed = 1
 
 def snooze_button_callback(channel):
     global snooze_press
+    print("snooze button press")
     if(time.time() - snooze_press > 3):
         snooze_press = time.time()
         global snooze_num
         snooze_num = snooze_num + 1
         global button_pressed
+        print("snooze button press processed")
         button_pressed = 2
 
 def init():
