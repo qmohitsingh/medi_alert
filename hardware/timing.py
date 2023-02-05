@@ -160,6 +160,7 @@ def main(medications):
 
             global button_pressed
             button_pressed = 0
+            print(button_pressed)
             start_time = time.time()
             while True:
                 if time.time() - start_time > 10:
@@ -177,7 +178,7 @@ def main(medications):
                     print(f"sleeping event {active_event['name']}")
                     active_event["time"] += timedelta(minutes=5)
                     break
-                time.sleep(0.1)
+                time.sleep(3)
         
 
 if __name__ == "__main__":
