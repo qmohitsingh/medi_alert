@@ -66,9 +66,11 @@ def init():
     #test to see if the dict is up to date
     #TODO call api request and asses the dict
     url = "http://3.92.112.184:3005/meds/"
-    api_data = requests.get(url + f"{user_id}")
+    api_data = requests.get(url + f"{user_id}").json
 
-    #print(api_data["data"])
+    print(api_data)
+
+
 
     for i in api_data:
         print(i)
