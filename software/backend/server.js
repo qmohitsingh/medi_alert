@@ -32,6 +32,8 @@ app.post('/meds', async (req, res) => {
     const body = req.body;
 
     try {
+
+        console.log("/meds: ", body)
         const resp = await meds.updateMedsHistory(body);
         res.status(200).send(resp);
     } catch (error) {
