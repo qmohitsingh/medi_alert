@@ -1,0 +1,58 @@
+{
+  "name": "cpsc_8380",
+  "version": "1.0.0",
+  "description": "cpsc_8380 project",
+  "main": "app.js",
+  "scripts": {
+    "start": "./node_modules/nodemon/bin/nodemon.js ./cpsc_8380/server.js",
+    "eslint": "./node_modules/.bin/eslint ./",
+    "eslintfix": "./node_modules/.bin/eslint ./ --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://"
+  },
+  "author": "Mohit Singh",
+  "license": "ISC",
+  "dependencies": {
+    "@manubb/union-find": "^1.0.2",
+    "agenda": "^2.1.0",
+    "agendash": "^1.0.0",
+    "axios": "^0.19.0",
+    "boom": "^7.3.0",
+    "bson": "^4.0.2",
+    "collections": "^5.1.9",
+    "disjoint-sets": "^1.0.0",
+    "eslint": "^6.3.0",
+    "express": "^4.18.2",
+    "fastify": "^2.7.1",
+    "fastify-boom": "^0.1.0",
+    "fastify-cors": "^2.1.3",
+    "fastify-helmet": "^3.0.1",
+    "fastify-jwt": "^1.0.0",
+    "fastify-multer": "^1.4.6",
+    "fastify-multipart": "^1.0.2",
+    "fastify-swagger": "^2.4.0",
+    "find-remove": "^2.0.0",
+    "joi": "^14.3.1",
+    "joi-password-complexity": "^3.0.0",
+    "joi-to-json-schema": "^5.1.0",
+    "mysql": "^2.17.1",
+    "node-fetch": "latest",
+    "nodemon": "^1.19.1",
+    "path": "^0.12.7",
+    "pg": "^7.12.1",
+    "pino-multi-stream": "^4.3.0",
+    "pino-pretty": "^3.2.0",
+    "rsuite": "^5.26.0",
+    "underscore": "^1.9.1",
+    "union-find": "^1.0.2"
+  },
+  "devDependencies": {
+    "ava": "^3.8.1",
+    "eslint-config-prettier": "^6.2.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "1.18.2"
+  }
+}

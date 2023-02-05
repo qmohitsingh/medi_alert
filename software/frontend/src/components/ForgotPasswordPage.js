@@ -33,7 +33,7 @@ const theme = createTheme();
 
 
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
 
     const navigate = useNavigate();
 
@@ -47,11 +47,11 @@ export default function LoginPage() {
     };
 
     const handleSignup = (event) => {
-        navigate("/signup");
+        navigate("/login");
     }
 
-    const handleForgotPassword = (event) => {
-        navigate("/forgotpassword");
+    const handleSendResetLink = (event) => {
+
     }
 
     return (
@@ -70,7 +70,7 @@ export default function LoginPage() {
                         <LockOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Forgot Password
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
@@ -83,40 +83,41 @@ export default function LoginPage() {
                             autoComplete="email"
                             autoFocus
                         />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
+                        {/*<TextField*/}
+                        {/*    margin="normal"*/}
+                        {/*    required*/}
+                        {/*    fullWidth*/}
+                        {/*    name="password"*/}
+                        {/*    label="Password"*/}
+                        {/*    type="password"*/}
+                        {/*    id="password"*/}
+                        {/*    autoComplete="current-password"*/}
+                        {/*/>*/}
+                        {/*<FormControlLabel*/}
+                        {/*    control={<Checkbox value="remember" color="primary" />}*/}
+                        {/*    label="Remember me"*/}
+                        {/*/>*/}
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            onClick={handleSendResetLink}
                         >
-                            Sign In
+                            Send Reset Link
                         </Button>
-                        <Grid container>
-                            <Grid item xs onClick={handleForgotPassword}>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
-                                </Link>
-                            </Grid>
-                            <Grid item onClick={handleSignup}>
-                                <Link href="#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
-                            </Grid>
-                        </Grid>
+                        {/*<Grid container>*/}
+                        {/*    <Grid item xs>*/}
+                        {/*        <Link href="#" variant="body2">*/}
+                        {/*            Forgot password?*/}
+                        {/*        </Link>*/}
+                        {/*    </Grid>*/}
+                        {/*    <Grid item onClick={handleSignup}>*/}
+                        {/*        <Link href="#" variant="body2">*/}
+                        {/*            {"Don't have an account? Sign Up"}*/}
+                        {/*        </Link>*/}
+                        {/*    </Grid>*/}
+                        {/*</Grid>*/}
                     </Box>
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
