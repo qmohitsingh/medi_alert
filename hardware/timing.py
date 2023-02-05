@@ -227,7 +227,7 @@ def main(medications):
             print(events)
 
             print(upload)
-            status = requests.post(url, body=upload)
+            status = requests.post(url, data=upload)
 
 
             print("\n\n")
