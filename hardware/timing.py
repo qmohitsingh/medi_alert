@@ -121,9 +121,9 @@ def build_events(medications):
     events.append( {
         "name" : "check_api",
         "id" : 0,
-        "time" : now.replace(second=0, microsecond=0) + timedelta(minutes = 5),
-        "alert_time" : now.replace(second=0, microsecond=0) + timedelta(minutes = 5),
-        "interval" : 5,
+        "time" : now.replace(second=0, microsecond=0) + timedelta(minutes = 1),
+        "alert_time" : now.replace(second=0, microsecond=0) + timedelta(minutes = 1),
+        "interval" : 1,
         "vibrations" : 0
     })
     print(medications)
@@ -220,7 +220,12 @@ def main(medications):
                                 alert["time"] = event["time"]
                                 alert["alert_time"] = event["alert_time"]
 
+
+            print(upload)
             status = requests.post(url, json = json.dumps(upload, indent=4))
+
+            sys.exit()
+
             if(status == 200):
                 upload = []
 
